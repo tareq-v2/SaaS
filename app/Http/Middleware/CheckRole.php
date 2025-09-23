@@ -8,16 +8,29 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CheckRole
 {
-    public function handle(Request $request, Closure $next, $role): Response
+    public function handle(Request $request, Closure $next, ...$roles): Response
     {
-        if (!$request->user()) {
-            return redirect()->route('login');
+        $user = $request->user();
+
+        if (!$user) {
+            return redirect('/login');
         }
 
-        if (!$request->user()->hasRole($role)) {
-            abort(403, 'Unauthorized access.');
+        // Debug: Check what roles are being passed
+        \Log::info('Checking roles:', ['required' => $roles, 'user_role' => $user->role]);
+
+        // Check if user has any of the required roles
+        foreach ($roles as $role) {
+            if ($user->role === $role) {
+                return $next($request);
+            }
         }
 
-        return $next($request);
+        // Allow super_admin to access admin routes
+        if (in_array('admin', $roles) && $user->role === 'super_admin') {
+            return $next($request);
+        }
+
+        abort(403, 'Unauthorized access. Required roles: ' . implode(', ', $roles) . '. Your role: ' . $user->role);
     }
 }

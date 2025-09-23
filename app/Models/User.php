@@ -11,10 +11,7 @@ class User extends Authenticatable
     use HasFactory, Notifiable;
 
     protected $fillable = [
-        'name',
-        'email',
-        'password',
-        'role',
+        'name', 'email', 'password', 'role', 'company_id', 'phone', 'address'
     ];
 
     protected $hidden = [
@@ -49,5 +46,15 @@ class User extends Authenticatable
     public function hasRole($role): bool
     {
         return $this->role === $role;
+    }
+    
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
+    }
+
+    public function userImports()
+    {
+        return $this->hasMany(UserImport::class, 'admin_id');
     }
 }
