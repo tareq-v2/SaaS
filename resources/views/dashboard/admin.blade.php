@@ -11,12 +11,15 @@
                         <i class="fas fa-user-shield me-2"></i>Admin Panel
                     </h5>
                 </div>
-                
+
                 <nav class="nav flex-column">
                     <a class="nav-link text-white active bg-warning" href="#" id="dashboard-link">
                         <i class="fas fa-tachometer-alt me-2"></i>Dashboard
                     </a>
-                    
+                    <a class="nav-link text-white" href="{{ route('admin.tasks') }}">
+                        <i class="fas fa-tachometer-alt me-2"></i>Tasks
+                    </a>
+
                     <!-- User Management -->
                     <div class="nav-item">
                         <a class="nav-link text-white" data-bs-toggle="collapse" href="#userManagement" role="button" aria-expanded="false">
@@ -38,7 +41,7 @@
                             </a>
                         </div>
                     </div>
-                    
+
                     <!-- Content Management -->
                     <div class="nav-item">
                         <a class="nav-link text-white" data-bs-toggle="collapse" href="#contentManagement" role="button" aria-expanded="false">
@@ -57,7 +60,7 @@
                             </a>
                         </div>
                     </div>
-                    
+
                     <!-- System -->
                     <div class="nav-item">
                         <a class="nav-link text-white" data-bs-toggle="collapse" href="#systemManagement" role="button" aria-expanded="false">
@@ -79,17 +82,17 @@
                             </a>
                         </div>
                     </div>
-                    
+
                     <!-- Reports -->
                     <a class="nav-link text-white" href="#">
                         <i class="fas fa-chart-bar me-2"></i>Reports
                     </a>
-                    
+
                     <!-- Analytics -->
                     <a class="nav-link text-white" href="#">
                         <i class="fas fa-analytics me-2"></i>Analytics
                     </a>
-                    
+
                     <!-- Security -->
                     <div class="nav-item">
                         <a class="nav-link text-white" data-bs-toggle="collapse" href="#securityManagement" role="button" aria-expanded="false">
@@ -111,7 +114,7 @@
                 </nav>
             </div>
         </div>
-        
+
         <!-- Main Content Area -->
         <div class="col-md-9 col-lg-10">
             <!-- Top Header -->
@@ -169,7 +172,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="col-md-3 mb-3">
                         <div class="card border-0 shadow-sm stats-card" style="background: linear-gradient(45deg, #28a745, #1e7e34);">
                             <div class="card-body text-white">
@@ -188,7 +191,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="col-md-3 mb-3">
                         <div class="card border-0 shadow-sm stats-card" style="background: linear-gradient(45deg, #ffc107, #d39e00);">
                             <div class="card-body text-white">
@@ -207,14 +210,14 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="col-md-3 mb-3">
                         <div class="card border-0 shadow-sm stats-card" style="background: linear-gradient(45deg, #17a2b8, #117a8b);">
                             <div class="card-body text-white">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div>
-                                        <h6 class="card-title mb-1 opacity-75">System Health</h6>
-                                        <h2 class="mb-0">95%</h2>
+                                        <h6 class="card-title mb-1 opacity-75">Tasks</h6>
+                                        <h2 class="mb-0">{{ App\Models\Task::count() }}</h2>
                                         <small class="opacity-75">
                                             <i class="fas fa-heartbeat me-1"></i>Good
                                         </small>
@@ -227,7 +230,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Management Cards -->
                 <div class="row mb-4">
                     <div class="col-md-6 mb-3">
@@ -254,7 +257,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="col-md-6 mb-3">
                         <div class="card border-0 shadow-sm h-100 management-card">
                             <div class="card-body">
@@ -263,18 +266,18 @@
                                         <i class="fas fa-edit fa-2x text-success"></i>
                                     </div>
                                     <div>
-                                        <h5 class="card-title mb-0">Content Management</h5>
-                                        <p class="text-muted mb-0">Manage website content and settings</p>
+                                        <h5 class="card-title mb-0">Tasks Management</h5>
+                                        <p class="text-muted mb-0">Manage task content and settings</p>
                                     </div>
                                 </div>
-                                <p class="card-text">Create, edit, and organize website content. Manage posts, categories, and media files efficiently.</p>
+                                <p class="card-text">Create, edit, and organize tasks. categories, and media files efficiently.</p>
                                 <div class="d-flex gap-2">
-                                    <button class="btn btn-success" onclick="quickAction('manage-content')">
-                                        <i class="fas fa-edit me-1"></i>Manage Content
-                                    </button>
-                                    <button class="btn btn-outline-success btn-sm" onclick="quickAction('add-post')">
+                                    <a class="btn btn-success" href="{{ route('admin.tasks') }}">
+                                        <i class="fas fa-edit me-1"></i>Manage Task
+                                    </a>
+                                    {{-- <button class="btn btn-outline-success btn-sm" onclick="quickAction('add-post')">
                                         <i class="fas fa-plus me-1"></i>New Post
-                                    </button>
+                                    </button> --}}
                                 </div>
                             </div>
                         </div>
@@ -323,19 +326,19 @@
                                         </button>
                                     </div>
                                     <div class="col-md-2 mb-3">
-                                        <button class="btn btn-outline-secondary w-100 quick-action-btn" onclick="refreshStats()">
+                                        <a class="btn btn-outline-secondary w-100 quick-action-btn" href="{{ route('admin.dashboard') }}">
                                             <i class="fas fa-sync fa-2x mb-2 d-block"></i>
                                             Refresh Stats
-                                        </button>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Recent Activity & System Status -->
-                <div class="row">
+                {{-- <div class="row">
                     <div class="col-md-8">
                         <div class="card border-0 shadow-sm">
                             <div class="card-header bg-transparent">
@@ -373,7 +376,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="col-md-4">
                         <div class="card border-0 shadow-sm">
                             <div class="card-header bg-transparent">
@@ -391,7 +394,7 @@
                                         <div class="progress-bar bg-success" role="progressbar" style="width: 28%"></div>
                                     </div>
                                 </div>
-                                
+
                                 <div class="mb-3">
                                     <div class="d-flex justify-content-between align-items-center mb-1">
                                         <span>Memory Usage</span>
@@ -401,7 +404,7 @@
                                         <div class="progress-bar bg-warning" role="progressbar" style="width: 65%"></div>
                                     </div>
                                 </div>
-                                
+
                                 <div class="mb-3">
                                     <div class="d-flex justify-content-between align-items-center mb-1">
                                         <span>Storage</span>
@@ -411,14 +414,14 @@
                                         <div class="progress-bar bg-info" role="progressbar" style="width: 42%"></div>
                                     </div>
                                 </div>
-                                
+
                                 <div class="text-center">
                                     <small class="text-muted">Last updated: {{ now()->format('M d, Y H:i') }}</small>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
             </div>
         </div>
     </div>
@@ -540,15 +543,15 @@
     function refreshStats() {
         const buttons = document.querySelectorAll('.quick-action-btn');
         buttons.forEach(btn => btn.disabled = true);
-        
+
         setTimeout(() => {
             buttons.forEach(btn => btn.disabled = false);
-            
+
             // Update stats
             document.getElementById('total-users').textContent = Math.floor(Math.random() * 1000) + 500;
             document.getElementById('admin-count').textContent = Math.floor(Math.random() * 20) + 5;
             document.getElementById('user-count').textContent = Math.floor(Math.random() * 800) + 400;
-            
+
             alert('Stats refreshed successfully!');
         }, 2000);
     }

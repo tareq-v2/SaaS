@@ -47,7 +47,7 @@ class User extends Authenticatable
     {
         return $this->role === $role;
     }
-    
+
     public function company()
     {
         return $this->belongsTo(Company::class);
@@ -56,5 +56,15 @@ class User extends Authenticatable
     public function userImports()
     {
         return $this->hasMany(UserImport::class, 'admin_id');
+    }
+
+    public function tasks()
+    {
+        return $this->belongsToMany(Task::class, 'task_user');
+    }
+
+    public function createdTasks()
+    {
+        return $this->hasMany(Task::class, 'created_by');
     }
 }

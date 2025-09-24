@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserImportController;
+use App\Http\Controllers\AdminTaskController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -41,4 +42,10 @@ Route::middleware(['auth', 'role:admin,super_admin'])->prefix('admin')->group(fu
     Route::get('/imports/{import}/status-json', [UserImportController::class, 'importStatusJson'])->name('admin.imports.status.json');
     Route::get('/notifications/latest', [UserImportController::class, 'getLatestNotifications'])->name('admin.notifications.latest');
     Route::get('/imports/history', [UserImportController::class, 'importHistory'])->name('admin.imports.history');
+
+    // Task routes
+    Route::get('/tasks', [AdminTaskController::class, 'index'])->name('admin.tasks');
+    Route::post('/tasks', [AdminTaskController::class, 'store'])->name('admin.tasks.store');
+    Route::patch('/tasks/{task}/status', [AdminTaskController::class, 'updateStatus'])->name('admin.tasks.updateStatus');
+    Route::delete('/tasks/{task}', [AdminTaskController::class, 'destroy'])->name('admin.tasks.destroy');
 });
