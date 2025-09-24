@@ -22,8 +22,6 @@ class UserImportController extends Controller
 
     public function import(Request $request)
     {
-        \Log::info('Import request started', ['user_id' => Auth::id()]);
-
         // Manual validation
         if (!$request->hasFile('file')) {
             return response()->json([
