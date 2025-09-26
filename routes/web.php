@@ -5,10 +5,11 @@ use App\Http\Controllers\UserImportController;
 use App\Http\Controllers\AdminTaskController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Broadcast;
 
 // Authentication Routes
 Auth::routes();
-
+Broadcast::routes(['middleware' => ['web', 'auth']]);
 // Public routes
 Route::get('/', function () {
     return view('welcome');

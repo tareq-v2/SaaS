@@ -45,7 +45,31 @@ class DashboardController extends Controller
 
     public function userDashboard()
     {
-        // All authenticated users can access
-        return view('dashboard.user');
+        $user = auth()->user();
+        
+        // Get tasks assigned to this user
+        $assignedTasks = $user->assignedTasks()
+            ->with(['creator', 'assignedUsers'])
+            ->orderBy('due_date', 'asc')
+            ->orderBy('priority', 'desc')
+            ->get();
+
+        // Get overdue tasks
+        $overdueTasks = $assignedTasks->filter(function($task) {
+            return $task->isOverdue();
+        });
+
+        // Get pending tasks (not completed)
+        $pendingTasks = $assignedTasks->where('status', '!=', 'completed');
+
+        // Get recent completed tasks
+        $completedTasks = $assignedTasks->where('status', 'completed')->take(5);
+
+        return view('dashboard.user', compact(
+            'assignedTasks',
+            'overdueTasks',
+            'pendingTasks',
+            'completedTasks'
+        ));
     }
 }

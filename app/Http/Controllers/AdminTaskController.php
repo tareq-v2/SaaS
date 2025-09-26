@@ -7,6 +7,7 @@ use App\Models\Task;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Events\TaskAssigned;
 
 class AdminTaskController extends Controller
 {
@@ -55,7 +56,11 @@ class AdminTaskController extends Controller
         ]);
 
         $task->assignedUsers()->sync($assignedUsers);
-
+                // Broadcast event to each assigned user
+        foreach ($assignedUsers as $userId) {
+            $user = User::find($userId);
+            event(new TaskAssigned($task, $user));
+        }
         return redirect()->route('admin.tasks')->with('success', 'Task created successfully!');
     }
 
